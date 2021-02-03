@@ -109,11 +109,13 @@ void moveOddItemsToBack(LinkedList *ll)
 				currNode = ll->head;
 				prev = ll->head;
 			} else {
-				prev->next = currNode->next;
-				tailNode->next = currNode;
-				tailNode = tailNode->next;
-				tailNode->next = NULL;
-				currNode = prev->next;
+				if (currNode->next != NULL) {
+					prev->next = currNode->next;
+					tailNode->next = currNode;
+					tailNode = tailNode->next;
+					tailNode->next = NULL;
+					currNode = prev->next;
+				}
 			}
 		} else {
 			prev = currNode;
