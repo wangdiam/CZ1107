@@ -86,33 +86,39 @@ int main()
 
 void moveOddItemsToBack(LinkedList *ll) 
 {
-	//add your code here
-	ListNode *currNode = ll->head, *lltail = NULL, *prev = ll->head;
-	int len=0;
+	ListNode *currNode = ll->head, *tailNode = NULL, *temp = NULL, *prev = NULL;
+	if (ll->head == NULL) return;
+
 	while (currNode != NULL) {
-		len++;
-		if (currNode->next != NULL) currNode = currNode->next;
-		else break;
+		if (currNode->next == NULL) {
+			tailNode = currNode;
+			break;
+		}
+		currNode = currNode->next;
 	}
-	lltail = currNode;
+
 	currNode = ll->head;
-	for (int i=0;i<len+2;i++) {
-		if (currNode->item%2==1) {	
+	for (int i=0;i<ll->size;i++) {
+		if (currNode->item%2==1) {
 			if (currNode == ll->head) {
-				ll->head = currNode->next;
+				if (ll->head->next == NULL) return;
+				ll->head = ll->head->next;
+				tailNode->next = currNode;
+				tailNode = tailNode->next;
+				tailNode->next = NULL;
+				currNode = ll->head;
 				prev = ll->head;
 			} else {
-				if (currNode->next != NULL) prev->next = currNode->next;
+				prev->next = currNode->next;
+				tailNode->next = currNode;
+				tailNode = tailNode->next;
+				tailNode->next = NULL;
+				currNode = prev->next;
 			}
-			lltail->next=currNode;
-			lltail = lltail->next;
-			currNode = currNode->next;
-			i++;
 		} else {
 			prev = currNode;
 			currNode = currNode->next;
 		}
-		lltail->next = NULL;
 	}
 }
 
